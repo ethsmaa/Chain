@@ -20,7 +20,7 @@ public class Chain {
     // ----------------------------------------------------
 
     // map burada tanımlanır
-    char map[][] = new char[31][19];
+    char map[][] = new char[19][31];
     Random random = new Random();
 
 
@@ -62,8 +62,8 @@ public class Chain {
         // ----------------------------------------------------
 
         // map burada doldurulur
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 31; j++) {
                 if (i % 2 == 0 && j % 2 == 0) {
                     int element = random.nextInt(4) + 1;
                     map[i][j] = Integer.toString(element).charAt(0);
@@ -75,7 +75,7 @@ public class Chain {
         //print map
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                cn.getTextWindow().output(i, j, map[i][j]);
+                cn.getTextWindow().output(j,i, map[i][j]);
             }
         }
 
@@ -86,7 +86,9 @@ public class Chain {
 
         cn.getTextWindow().output(px, py, '+');
         while (true) {
+
             if (mousepr == 1) {  // if mouse button pressed
+
                 cn.getTextWindow().output(mousex, mousey, '#');  // write a char to x,y position without changing cursor position
                 px = mousex;
                 py = mousey;
@@ -94,22 +96,24 @@ public class Chain {
                 mousepr = 0;     // last action
             }
             if (keypr == 1) {    // if keyboard button pressed
-                if (rkey == KeyEvent.VK_LEFT && map[py][px - 1] == ' ') {
+
+                //sınır değilse
+                if (rkey == KeyEvent.VK_LEFT && px!=0 && map[py][px - 1] == ' ') {
                     map[py][px] = ' ';
                     cn.getTextWindow().output(px, py, ' ');
                     px--;
                 }
-                if (rkey == KeyEvent.VK_RIGHT && map[py][px + 1] == ' ') {
+                if (rkey == KeyEvent.VK_RIGHT && px!=30 && map[py][px + 1] == ' ') {
                     map[py][px] = ' ';
                     cn.getTextWindow().output(px, py, ' ');
                     px++;
                 }
-                if (rkey == KeyEvent.VK_UP && map[py - 1][px] == ' ') {
+                if (rkey == KeyEvent.VK_UP && py!=0 && map[py - 1][px] == ' ') {
                     map[py][px] = ' ';
                     cn.getTextWindow().output(px, py, ' ');
                     py--;
                 }
-                if (rkey == KeyEvent.VK_DOWN && map[py + 1][px] == ' ') {
+                if (rkey == KeyEvent.VK_DOWN && py!=18 && map[py + 1][px] == ' ') {
                     map[py][px] = ' ';
                     cn.getTextWindow().output(px, py, ' ');
                     py++;
@@ -122,10 +126,10 @@ public class Chain {
                 else cn.getTextWindow().output(rckey);
 
                 if(rkey == KeyEvent.VK_SPACE){
-                    // zincir bitimi
+                    // insert/delete +
                 }
 
-                if (rkey == KeyEvent.VK_SPACE) {
+                if (rkey == KeyEvent.VK_ENTER) {
                     // round bitimi
                 }
 
