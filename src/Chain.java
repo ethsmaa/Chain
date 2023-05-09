@@ -2,6 +2,7 @@ import enigma.core.Enigma;
 import enigma.event.TextMouseEvent;
 import enigma.event.TextMouseListener;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -20,7 +21,7 @@ public class Chain {
     // ----------------------------------------------------
 
     // map burada tanımlanır
-    char map[][] = new char[19][31];
+    static char[][] map = new char[19][31];
     Random random = new Random();
 
 
@@ -78,18 +79,18 @@ public class Chain {
                 cn.getTextWindow().output(j, i, map[i][j]);
             }
         }
-        
-
 
 
         while (true) {
 
             if (mousepr == 1) {  // if mouse button pressed
+                if(isSquareEmpty(mousex, mousey)) {
+                    cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
+                    map[mousey][mousex] = '+'; // arraye ekle
+                }
 
-                cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
-                map[mousey][mousex] = '+'; // arraye ekle
+                    mousepr = 0;     // last action
 
-                mousepr = 0;     // last action
             }
 
 
@@ -108,5 +109,15 @@ public class Chain {
 
             Thread.sleep(20);
         }
+
     }
+
+    static boolean isSquareEmpty(int x, int y) {
+    	if(map[y][x] == ' ') return true;
+    	else return false;
+
+    }
+
 }
+
+
