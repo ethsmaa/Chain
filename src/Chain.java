@@ -75,7 +75,7 @@ public class Chain {
         //print map
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                cn.getTextWindow().output(j,i, map[i][j]);
+                cn.getTextWindow().output(j, i, map[i][j]);
             }
         }
 
@@ -89,60 +89,26 @@ public class Chain {
 
             if (mousepr == 1) {  // if mouse button pressed
 
-                cn.getTextWindow().output(mousex, mousey, '#');  // write a char to x,y position without changing cursor position
-                px = mousex;
-                py = mousey;
+                cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
+
 
                 mousepr = 0;     // last action
             }
+
+
+            // + yon tuslariyla hareket edecekse asagidaki kod
+            /*
             if (keypr == 1) {    // if keyboard button pressed
 
-                //sınır değilse
-                if (rkey == KeyEvent.VK_LEFT && px!=0 && map[py][px - 1] == ' ') {
-                    map[py][px] = ' ';
-                    cn.getTextWindow().output(px, py, ' ');
-                    px--;
-                }
-                if (rkey == KeyEvent.VK_RIGHT && px!=30 && map[py][px + 1] == ' ') {
-                    map[py][px] = ' ';
-                    cn.getTextWindow().output(px, py, ' ');
-                    px++;
-                }
-                if (rkey == KeyEvent.VK_UP && py!=0 && map[py - 1][px] == ' ') {
-                    map[py][px] = ' ';
-                    cn.getTextWindow().output(px, py, ' ');
-                    py--;
-                }
-                if (rkey == KeyEvent.VK_DOWN && py!=18 && map[py + 1][px] == ' ') {
-                    map[py][px] = ' ';
-                    cn.getTextWindow().output(px, py, ' ');
-                    py++;
-                }
-
-                char rckey = (char) rkey;
-                //        left          right          up            down
-                if (rckey == '%' || rckey == '\'' || rckey == '&' || rckey == '(')
-                    cn.getTextWindow().output(px, py, '+'); // VK kullanmadan test teknigi
-                else cn.getTextWindow().output(rckey);
-
-                if(rkey == KeyEvent.VK_SPACE){
-                    // insert/delete +
-                }
-
                 if (rkey == KeyEvent.VK_ENTER) {
-                    // round bitimi
                 }
 
                 if (rkey == KeyEvent.VK_E) {
-                    // tam olarak calismiyor sanırım
-                    // oyundan cikis
-                    break;
                 }
-
-
-
                 keypr = 0;    // last action
-            }
+              }
+             */
+
             Thread.sleep(20);
         }
     }
