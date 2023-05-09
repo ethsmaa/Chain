@@ -78,19 +78,16 @@ public class Chain {
                 cn.getTextWindow().output(j, i, map[i][j]);
             }
         }
-
-        // +'nın yerini mapte belirle
-        int px = 1, py = 2;
-        map[py][px] = '+';
+        
 
 
-        cn.getTextWindow().output(px, py, '+');
+
         while (true) {
 
             if (mousepr == 1) {  // if mouse button pressed
 
                 cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
-
+                map[mousey][mousex] = '+'; // arraye ekle
 
                 mousepr = 0;     // last action
             }
