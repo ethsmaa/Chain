@@ -218,11 +218,12 @@ public class Chain {
         int i = findTail()[0];
         int j = findTail()[1];
         int say =0;
-        chain.add(map[i][j]);
-        map[i][j] = '.';
-        cn.getTextWindow().output(j, i, '.');
         int chainLength = plusCount() + 1; // zincirdeki eleman sayısı
         int[] numbers = new int[chainLength];
+        chain.add(map[i][j]);
+        numbers[0] = Integer.valueOf(map[i][j]);
+        map[i][j] = '.';
+        cn.getTextWindow().output(j, i, '.');
 
         for (int m = 1; m < chainLength; m++) { // zincirin tüm elemanları dolaşılana kadar
             if (j + 1 < column && map[i][j + 1] == '+') { // sağ
@@ -283,7 +284,7 @@ public class Chain {
         int pos = 35;
         if(nn.length < 4)lost();
 
-        for (int i = 1; i < nn.length && !isLost; i++) {
+        for (int i = 0; i < nn.length && !isLost; i++) {
             //46 o zaman olur ki nn[i] = "." , bu o demekdir ki chainde sehv var, bu zaman oyun bitir
             if(nn[i] == 46) {
                 lost();
