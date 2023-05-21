@@ -260,7 +260,7 @@ public class Chain {
         //chainde sehv yoxdursa scoreni tezeleyirik , eks halda oyun bitir
         if(!isLost) {
             //scoreye n*n elave edirik, n reqemlerin sayidir
-            UpdateScore(score+say*say);
+            UpdateScore(score+(say+1)*(say+1));
             UpdateRounds();
         }
         return chain;
