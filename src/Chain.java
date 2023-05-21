@@ -193,7 +193,7 @@ public class Chain {
 
 
                 if (rkey == KeyEvent.VK_ENTER) {
-                    Chain();
+                    chain();
                     //when this function runs, the generated
                     // chain is added to the SLL. instead of elements
                     // in the chain '.' is written.
