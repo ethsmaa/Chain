@@ -9,6 +9,7 @@ import java.util.Random;
 import java.io.FileWriter;
 
 
+
 public class Chain {
     public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 20, 20, 0);
     public TextMouseListener tmlis;
@@ -25,7 +26,7 @@ public class Chain {
     static char[][] map = new char[19][31];
     //uduzma mentiqi ucun
     static Boolean isLost = false;
-    static int chains = 0;
+    static int chains=0;
 
     static int row = 19;
     static int column = 31;
@@ -36,8 +37,7 @@ public class Chain {
     static int printY = 5;
     //istifadeci adi
     static String Username;
-
-    Chain(int seeed, String Uname) throws Exception {   // --- Contructor
+    Chain(int seeed , String Uname) throws Exception {   // --- Contructor
         //randoum seedi burada qoyulur
         Random random = new Random(seeed);
         //istifadeci adi burada teyin olunur
@@ -111,21 +111,27 @@ public class Chain {
         //uduzarken dayandirmaq ucun isLostdan istifade olunur
 
 
+
+        /* player yön tuşları ile oynayacaksa
+        mousey=1;
+        mousex=1;
+         */
+        
         while (!isLost) {
 
             if (mousepr == 1) {  // if mouse button pressed
 
-                //! + nın eklendiği yer arrayin sınırlarını geçmemeli !1! henüz bu kontrol yok
+
                 //qiraqa basanda error olmasin deye qoyulub
                 try {
                     if (isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
                         cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
                         map[mousey][mousex] = '+'; // arraye ekle
                     }
-                } catch (Exception e) {
+                }catch(Exception e) {
 
-                } finally {
-                }
+                }finally{}
+
                 mousepr = 0;     // last action
 
             }
@@ -134,7 +140,7 @@ public class Chain {
             if (keypr == 1) {    // if keyboard button pressed
 
 
-                /*    eğer oyuncu yön tuşları ile oynamak isterse
+
                 // ilerlenilen yön boşsa
                     if (rkey == KeyEvent.VK_LEFT && isSquareEmpty(mousex - 1, mousey)) {
                         if (mousex > 0) {
@@ -179,7 +185,6 @@ public class Chain {
                     } catch (Exception e) {
                     }
                 }
-                 */
 
 
                 if (rkey == KeyEvent.VK_ENTER) {
@@ -192,11 +197,12 @@ public class Chain {
                 }
 
                 //e basildiqda uduzur, oyun bitir
-                if (rkey == KeyEvent.VK_E) {
+                if (rkey == KeyEvent.VK_E){
                     lost();
                 }
                 keypr = 0;    // last action
             }
+
 
 
             // mapin altına print
@@ -268,7 +274,7 @@ public class Chain {
         SLL chain = new SLL();
         int i = findTail()[0];
         int j = findTail()[1];
-        int say = 0;
+        int say =0;
         int chainLength = plusCount() + 1; // zincirdeki eleman sayısı
         int[] numbers = new int[chainLength];
         chain.add(map[i][j]);
@@ -282,17 +288,20 @@ public class Chain {
                 cn.getTextWindow().output(j + 1, i, ' ');
                 j += 2;
                 chain.add(map[i][j]);
-            } else if (j - 1 > 0 && map[i][j - 1] == '+') { // sol
+            }
+            else if (j - 1 > 0 && map[i][j - 1] == '+') { // sol
                 map[i][j - 1] = ' ';
                 cn.getTextWindow().output(j - 1, i, ' ');
                 j -= 2;
                 chain.add(map[i][j]);
-            } else if (i + 1 < row && map[i + 1][j] == '+') { // alt
+            }
+            else if (i + 1 < row && map[i + 1][j] == '+') { // alt
                 map[i + 1][j] = ' ';
                 cn.getTextWindow().output(j, i + 1, ' ');
                 i += 2;
                 chain.add(map[i][j]);
-            } else if (i - 1 > 0 && map[i - 1][j] == '+') { // üst
+            }
+            else if (i - 1 > 0 && map[i - 1][j] == '+') { // üst
                 map[i - 1][j] = ' ';
                 cn.getTextWindow().output(j, i - 1, ' ');
                 i -= 2;
@@ -306,9 +315,9 @@ public class Chain {
         //cap edirik tableye
         PrintToTable(numbers);
         //chainde sehv yoxdursa scoreni tezeleyirik , eks halda oyun bitir
-        if (!isLost) {
+        if(!isLost) {
             //scoreye n*n elave edirik, n reqemlerin sayidir
-            UpdateScore(score + (say + 1) * (say + 1));
+            UpdateScore(score+(say+1)*(say+1));
             UpdateRounds();
         }
         return chain;
@@ -321,22 +330,20 @@ public class Chain {
         cn.getTextWindow().output(Integer.valueOf(score).toString());
 
     }
-
     //gelen raunda kecirik
     static void UpdateRounds() {
         rounds++;
         cn.getTextWindow().setCursorPosition(43, 1);
         cn.getTextWindow().output(Integer.valueOf(rounds).toString());
     }
-
     //Tableye cap edir
     static void PrintToTable(int[] nn) {
         int pos = 35;
-        if (nn.length < 4) lost();
+        if(nn.length < 4)lost();
 
         for (int i = 0; i < nn.length && !isLost; i++) {
             //46 o zaman olur ki nn[i] = "." , bu o demekdir ki chainde sehv var, bu zaman oyun bitir
-            if (nn[i] == 46) {
+            if(nn[i] == 46) {
                 lost();
             }
             //eks halda oyun davam edir, verilen hundurlukde cap olunur
@@ -344,8 +351,8 @@ public class Chain {
             pos++;
             cn.getTextWindow().output(Integer.valueOf(nn[i]).toString());
             //cap etme mentiqidir
-            if (i != nn.length - 1) {
-                if (nn[i] != nn[i + 1] + 1 && nn[i] != nn[i + 1] - 1) lost();
+            if(i!=nn.length-1) {
+                if(nn[i] != nn[i+1]+1 && nn[i] != nn[i+1]-1)lost();
                 cn.getTextWindow().setCursorPosition(pos, printY);
                 cn.getTextWindow().output("+");
                 pos++;
@@ -353,16 +360,15 @@ public class Chain {
         }
 
         //+ isaresini qoymaq ucundur, ilk chain deyilse qoyulur
-        if (chains != 0) {
+        if(chains!=0) {
             printY--;
             cn.getTextWindow().setCursorPosition(35, printY);
             cn.getTextWindow().output("+");
             printY++;
         }
-        printY += 2;
+        printY+=2;
         chains++;
     }
-
     //uduzarken altda GameOver cap edir cap edir ve oyunu saxlayir, while dovru bitir
     static void lost() {
         cn.getTextWindow().setCursorPosition(35, 16);
