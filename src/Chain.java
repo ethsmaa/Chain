@@ -25,17 +25,15 @@ public class Chain {
 
     // map is defined here
     static char[][] map = new char[19][31];
-
-
+  
+    //for losing logic
     static Boolean isLost = false;
-
-
     static int chains=0;
 
     static int row = 19;
     static int column = 31;
 
-    //verilenler , raund sayi ve score
+    //given, number of rounds and score
     static int score = 0;
     static int rounds = 0;
 
@@ -45,10 +43,11 @@ public class Chain {
     //player name
     static String Username;
     Chain(int seeed , String Uname) throws Exception {   // --- Contructor
-
+        //random seed is defined here
         Random random = new Random(seeed);
-
-        Username = Uname; // username is set here
+        
+        //username is defined here
+        Username = Uname; 
 
 
         cn.getTextWindow().setCursorPosition(47, 0); // seed is printed here
@@ -88,7 +87,7 @@ public class Chain {
         cn.getTextWindow().addKeyListener(klis);
         // ----------------------------------------------------
 
-        // map
+        // map is filled here
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 if (i % 2 != 1 && j % 2 != 1) {
@@ -98,7 +97,7 @@ public class Chain {
             }
         }
 
-       // User interface, rounds, score can be found here
+       // User interface, rounds, score is printed here
         cn.getTextWindow().setCursorPosition(35, 0);
         cn.getTextWindow().output("Board Seed:");
         cn.getTextWindow().setCursorPosition(35, 1);
@@ -254,10 +253,10 @@ public class Chain {
 
     int plusDirectionCount(int x, int y) { // + number around the square
         int count = 0;
-        if (x + 1 < 31 && map[y][x + 1] == '+') count++; // sağ
-        if (x - 1 > 0 && map[y][x - 1] == '+') count++; // sol
-        if (y + 1 < 19 && map[y + 1][x] == '+') count++; // alt
-        if (y - 1 > 0 && map[y - 1][x] == '+') count++; // üst
+        if (x + 1 < 31 && map[y][x + 1] == '+') count++; // right
+        if (x - 1 > 0 && map[y][x - 1] == '+') count++; // left
+        if (y + 1 < 19 && map[y + 1][x] == '+') count++; // bottom
+        if (y - 1 > 0 && map[y - 1][x] == '+') count++; // top
         return count;
     }
 
@@ -284,25 +283,25 @@ public class Chain {
         cn.getTextWindow().output(j, i, '.');
 
         for (int m = 1; m < chainLength; m++) {
-            if (j + 1 < column && map[i][j + 1] == '+') { // sağ
-                map[i][j + 1] = ' '; // + silinir
+            if (j + 1 < column && map[i][j + 1] == '+') { // right
+                map[i][j + 1] = ' '; // + is deleted
                 cn.getTextWindow().output(j + 1, i, ' ');
                 j += 2;
                 chain.add(map[i][j]);
             }
-            else if (j - 1 > 0 && map[i][j - 1] == '+') { // sol
+            else if (j - 1 > 0 && map[i][j - 1] == '+') { // left
                 map[i][j - 1] = ' ';
                 cn.getTextWindow().output(j - 1, i, ' ');
                 j -= 2;
                 chain.add(map[i][j]);
             }
-            else if (i + 1 < row && map[i + 1][j] == '+') { // alt
+            else if (i + 1 < row && map[i + 1][j] == '+') { // bottom
                 map[i + 1][j] = ' ';
                 cn.getTextWindow().output(j, i + 1, ' ');
                 i += 2;
                 chain.add(map[i][j]);
             }
-            else if (i - 1 > 0 && map[i - 1][j] == '+') { // üst
+            else if (i - 1 > 0 && map[i - 1][j] == '+') { // top
                 map[i - 1][j] = ' ';
                 cn.getTextWindow().output(j, i - 1, ' ');
                 i -= 2;
@@ -354,7 +353,7 @@ public class Chain {
             cn.getTextWindow().setCursorPosition(pos, printY);
             pos++;
             cn.getTextWindow().output(Integer.valueOf(nn[i]).toString());
-            //cap etme mentiqidir
+            //printing logic
             if(i!=nn.length-1) {
                 if(nn[i] != nn[i+1]+1 && nn[i] != nn[i+1]-1)lost();
                 cn.getTextWindow().setCursorPosition(pos, printY);
@@ -374,7 +373,7 @@ public class Chain {
         chains++;
     }
     //while losing, GameOver is displayed at the bottom,
-    // and the game is saved, while the round ends
+    // and the game is stopped, while loop is over
     static void lost() {
         cn.getTextWindow().setCursorPosition(35, 16);
         cn.getTextWindow().output("Error in chain");
@@ -391,5 +390,4 @@ public class Chain {
         isLost = true;
     }
 }
-
 
