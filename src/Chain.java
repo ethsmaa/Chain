@@ -270,7 +270,7 @@ public class Chain {
         return count;
     }
 
-    SLL Chain() {
+    SLL chain() {
         SLL chain = new SLL();
         int i = findTail()[0];
         int j = findTail()[1];
