@@ -134,6 +134,11 @@ public class Chain {
                         cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
                         map[mousey][mousex] = '+'; // arraye ekle
                     }
+                    else if(map[mousey][mousex] == '+') {
+                        cn.getTextWindow().output(mousex, mousey, ' ');
+                        map[mousey][mousex] = 0; // arraye ekle
+
+                    }
                 }catch(Exception e) {
 
                 }finally{}
@@ -183,6 +188,11 @@ public class Chain {
                         if (mousex>0 && mousey>0 &&mousex<column && mousey<row && isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
                             cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
                             map[mousey][mousex] = '+';
+                        }
+                        else if(map[mousey][mousex] == '+') {
+                            cn.getTextWindow().output(mousex, mousey, ' ');
+                            map[mousey][mousex] = 0; // arraye ekle
+
                         }
                     } catch (Exception e) {
                     }
@@ -281,25 +291,25 @@ public class Chain {
 
         for (int m = 1; m < chainLength; m++) {
             if (j + 1 < column && map[i][j + 1] == '+') { // right
-                map[i][j + 1] = ' '; // + is deleted
+                map[i][j + 1] = '0'; // + is deleted
                 cn.getTextWindow().output(j + 1, i, ' ');
                 j += 2;
                 chain.add(map[i][j]);
             }
             else if (j - 1 > 0 && map[i][j - 1] == '+') { // left
-                map[i][j - 1] = ' ';
+                map[i][j - 1] = '0';
                 cn.getTextWindow().output(j - 1, i, ' ');
                 j -= 2;
                 chain.add(map[i][j]);
             }
             else if (i + 1 < row && map[i + 1][j] == '+') { // bottom
-                map[i + 1][j] = ' ';
+                map[i + 1][j] = '0';
                 cn.getTextWindow().output(j, i + 1, ' ');
                 i += 2;
                 chain.add(map[i][j]);
             }
             else if (i - 1 > 0 && map[i - 1][j] == '+') { // top
-                map[i - 1][j] = ' ';
+                map[i - 1][j] = '0';
                 cn.getTextWindow().output(j, i - 1, ' ');
                 i -= 2;
                 chain.add(map[i][j]);
