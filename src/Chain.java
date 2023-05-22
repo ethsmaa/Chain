@@ -118,10 +118,9 @@ public class Chain {
 
 
 
-        /* player yön tuşları ile oynayacaksa
         mousey=1;
         mousex=1;
-         */
+
 
         // isLost is used to stop when losing
         while (!isLost) {
@@ -147,43 +146,41 @@ public class Chain {
             if (keypr == 1) {    // if keyboard button pressed
 
 
-                    if (rkey == KeyEvent.VK_LEFT && isSquareEmpty(mousex - 1, mousey)) {
-                        if (mousex > 0) {
+                    if (rkey == KeyEvent.VK_LEFT &&mousex > 0 &&isSquareEmpty(mousex - 1, mousey)) {
+
                             if (map[mousey][mousex] != '+') {
                                 cn.getTextWindow().output(mousex, mousey, ' ');
                             }
                             mousex--;
-                        }
+
                     }
-                    if (rkey == KeyEvent.VK_RIGHT && isSquareEmpty(mousex + 1, mousey)) {
-                        if (mousex < column - 1) {
+                    if (rkey == KeyEvent.VK_RIGHT &&mousex < column - 1&& isSquareEmpty(mousex + 1, mousey)) {
                             if (map[mousey][mousex] != '+') {
                                 cn.getTextWindow().output(mousex, mousey, ' ');
                             }
                             mousex++;
-                        }
                     }
-                    if (rkey == KeyEvent.VK_UP && isSquareEmpty(mousex, mousey - 1)) {
-                        if (mousey > 0) {
+                    if (rkey == KeyEvent.VK_UP && mousey>0 &&isSquareEmpty(mousex, mousey - 1)) {
+
                             if (map[mousey][mousex] != '+') {
                                 cn.getTextWindow().output(mousex, mousey, ' ');
                             }
                             mousey--;
-                        }
+
                     }
-                    if (rkey == KeyEvent.VK_DOWN && isSquareEmpty(mousex, mousey + 1)) {
-                        if (mousey < row - 1) {
+                    if (rkey == KeyEvent.VK_DOWN &&mousey < row - 1&& isSquareEmpty(mousex, mousey + 1)) {
+
                             if (map[mousey][mousex] != '+') {
                                 cn.getTextWindow().output(mousex, mousey, ' ');
                             }
                             mousey++;
-                        }
+
                     }
                 cn.getTextWindow().output(mousex, mousey, '_');
 
                 if( rkey == KeyEvent.VK_SPACE) {
                     try {
-                        if (isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
+                        if (mousex>0 && mousey>0 &&mousex<column && mousey<row && isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
                             cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
                             map[mousey][mousex] = '+';
                         }
