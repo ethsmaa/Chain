@@ -16,6 +16,7 @@ public class SLL {
         }
     }
 
+
     public void remove(int index) {
         if (head == null || index < 0) {
             return;
@@ -125,6 +126,35 @@ public class SLL {
             }
         }
     }
+
+    public boolean checkDifference() {
+        if (head == null || head.link == null) {
+            // Liste boş veya tek bir elemandan oluşuyorsa,kontrole gerek yok
+            return true;
+        }
+
+        Node current = head;
+        Node nextNode = current.link;
+
+        while (nextNode != null) {
+            int currentValue = (int) current.getData();
+            int nextValue = (int) nextNode.getData();
+
+            if (Math.abs(currentValue - nextValue) != 1) {
+                // ardışık elemanlar arasındaki fark 1'den farklıysa false döndür
+                return false;
+            }
+
+            current = nextNode;
+            nextNode = nextNode.getLink();
+        }
+
+        return true;
+    }
+
+
+
+
 
 
 

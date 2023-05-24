@@ -9,7 +9,6 @@ import java.util.Random;
 import java.io.FileWriter;
 
 
-
 public class Chain {
     public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 20, 20, 0);
     public TextMouseListener tmlis;
@@ -25,10 +24,10 @@ public class Chain {
 
     // map is defined here
     static char[][] map = new char[19][31];
-  
+
     //for losing logic
     static Boolean isLost = false;
-    static int chains=0;
+    static int chains = 0;
 
     static int row = 19;
     static int column = 31;
@@ -43,12 +42,17 @@ public class Chain {
 
     //player name
     static String Username;
-    Chain(int seeed , String Uname) throws Exception {   // --- Contructor
+
+    // table
+    static MultiLinkedList table = new MultiLinkedList();
+    static int countTable = 1;
+
+    Chain(int seeed, String Uname) throws Exception {   // --- Contructor
         //random seed is defined here
         Random random = new Random(seeed);
-        
+
         //username is defined here
-        Username = Uname; 
+        Username = Uname;
 
 
         cn.getTextWindow().setCursorPosition(47, 0); // seed is printed here
@@ -98,7 +102,7 @@ public class Chain {
             }
         }
 
-       // User interface, rounds, score is printed here
+        // User interface, rounds, score is printed here
         cn.getTextWindow().setCursorPosition(35, 0);
         cn.getTextWindow().output("Board Seed:");
         cn.getTextWindow().setCursorPosition(35, 1);
@@ -118,9 +122,8 @@ public class Chain {
         printMap();
 
 
-
-        mousey=1;
-        mousex=1;
+        mousey = 1;
+        mousex = 1;
 
 
         // isLost is used to stop when losing
@@ -134,15 +137,15 @@ public class Chain {
                     if (isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
                         cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
                         map[mousey][mousex] = '+'; // arraye ekle
-                    }
-                    else if(map[mousey][mousex] == '+') {
+                    } else if (map[mousey][mousex] == '+') {
                         cn.getTextWindow().output(mousex, mousey, ' ');
                         map[mousey][mousex] = 0; // arraye ekle
 
                     }
-                }catch(Exception e) {
+                } catch (Exception e) {
 
-                }finally{}
+                } finally {
+                }
 
                 mousepr = 0;     // last action
 
@@ -152,45 +155,44 @@ public class Chain {
             if (keypr == 1) {    // if keyboard button pressed
 
 
-                    if (rkey == KeyEvent.VK_LEFT &&mousex > 0 &&isSquareEmpty(mousex - 1, mousey)) {
+                if (rkey == KeyEvent.VK_LEFT && mousex > 0 && isSquareEmpty(mousex - 1, mousey)) {
 
-                            if (map[mousey][mousex] != '+') {
-                                cn.getTextWindow().output(mousex, mousey, ' ');
-                            }
-                            mousex--;
-
+                    if (map[mousey][mousex] != '+') {
+                        cn.getTextWindow().output(mousex, mousey, ' ');
                     }
-                    if (rkey == KeyEvent.VK_RIGHT &&mousex < column - 1&& isSquareEmpty(mousex + 1, mousey)) {
-                            if (map[mousey][mousex] != '+') {
-                                cn.getTextWindow().output(mousex, mousey, ' ');
-                            }
-                            mousex++;
+                    mousex--;
+
+                }
+                if (rkey == KeyEvent.VK_RIGHT && mousex < column - 1 && isSquareEmpty(mousex + 1, mousey)) {
+                    if (map[mousey][mousex] != '+') {
+                        cn.getTextWindow().output(mousex, mousey, ' ');
                     }
-                    if (rkey == KeyEvent.VK_UP && mousey>0 &&isSquareEmpty(mousex, mousey - 1)) {
+                    mousex++;
+                }
+                if (rkey == KeyEvent.VK_UP && mousey > 0 && isSquareEmpty(mousex, mousey - 1)) {
 
-                            if (map[mousey][mousex] != '+') {
-                                cn.getTextWindow().output(mousex, mousey, ' ');
-                            }
-                            mousey--;
-
+                    if (map[mousey][mousex] != '+') {
+                        cn.getTextWindow().output(mousex, mousey, ' ');
                     }
-                    if (rkey == KeyEvent.VK_DOWN &&mousey < row - 1&& isSquareEmpty(mousex, mousey + 1)) {
+                    mousey--;
 
-                            if (map[mousey][mousex] != '+') {
-                                cn.getTextWindow().output(mousex, mousey, ' ');
-                            }
-                            mousey++;
+                }
+                if (rkey == KeyEvent.VK_DOWN && mousey < row - 1 && isSquareEmpty(mousex, mousey + 1)) {
 
+                    if (map[mousey][mousex] != '+') {
+                        cn.getTextWindow().output(mousex, mousey, ' ');
                     }
+                    mousey++;
+
+                }
                 cn.getTextWindow().output(mousex, mousey, '_');
 
-                if( rkey == KeyEvent.VK_SPACE) {
+                if (rkey == KeyEvent.VK_SPACE) {
                     try {
-                        if (mousex>0 && mousey>0 &&mousex<column && mousey<row && isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
+                        if ( mousex < column && mousey < row && isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
                             cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
                             map[mousey][mousex] = '+';
-                        }
-                        else if(map[mousey][mousex] == '+') {
+                        } else if (map[mousey][mousex] == '+') {
                             cn.getTextWindow().output(mousex, mousey, ' ');
                             map[mousey][mousex] = 0; // arraye ekle
 
@@ -209,7 +211,7 @@ public class Chain {
                 }
 
                 // end the game when the e is pressed
-                if (rkey == KeyEvent.VK_E){
+                if (rkey == KeyEvent.VK_E) {
                     lost();
                 }
                 keypr = 0;    // last action
@@ -239,7 +241,6 @@ public class Chain {
         else return false;
 
     }
-
 
     int[] findTail() { // this function returns the coordinates of the square with only 1 '+' sign around it in the map
         int coordinatesofTail[] = new int[2];
@@ -282,10 +283,10 @@ public class Chain {
         SLL chain = new SLL();
         int i = findTail()[0];
         int j = findTail()[1];
-        int say =0;
+        int say = 0;
         int chainLength = plusCount() + 1; // elements count in the chain
         int[] numbers = new int[chainLength];
-        chain.add(map[i][j]);
+        chain.add((int) map[i][j]);
         numbers[0] = Integer.valueOf(map[i][j]);
         map[i][j] = '.';
         cn.getTextWindow().output(j, i, '.');
@@ -295,37 +296,35 @@ public class Chain {
                 map[i][j + 1] = '0'; // + is deleted
                 cn.getTextWindow().output(j + 1, i, ' ');
                 j += 2;
-                chain.add(map[i][j]);
-            }
-            else if (j - 1 > 0 && map[i][j - 1] == '+') { // left
+                chain.add((int) map[i][j]);
+            } else if (j - 1 > 0 && map[i][j - 1] == '+') { // left
                 map[i][j - 1] = '0';
                 cn.getTextWindow().output(j - 1, i, ' ');
                 j -= 2;
-                chain.add(map[i][j]);
-            }
-            else if (i + 1 < row && map[i + 1][j] == '+') { // bottom
+                chain.add((int) map[i][j]);
+            } else if (i + 1 < row && map[i + 1][j] == '+') { // bottom
                 map[i + 1][j] = '0';
                 cn.getTextWindow().output(j, i + 1, ' ');
                 i += 2;
-                chain.add(map[i][j]);
-            }
-            else if (i - 1 > 0 && map[i - 1][j] == '+') { // top
+                chain.add((int) map[i][j]);
+            } else if (i - 1 > 0 && map[i - 1][j] == '+') { // top
                 map[i - 1][j] = '0';
                 cn.getTextWindow().output(j, i - 1, ' ');
                 i -= 2;
-                chain.add(map[i][j]);
+                chain.add((int) map[i][j]);
             }
             numbers[m] = Integer.valueOf(map[i][j]);
             map[i][j] = '.';
             cn.getTextWindow().output(j, i, '.');
             say++;
         }
-        //print to table
-        PrintToTable(numbers);
+
+        if(checkChain(numbers, chain)) // zincir doğruysa ekrana basılır
+            PrintToTable(numbers, chain);
         //If there is no error in the chain, updating the score, otherwise the game ends
-        if(!isLost) {
+        if (!isLost) {
             //We add n*n to the score, n is the number of digits
-            UpdateScore(score+(say+1)*(say+1));
+            UpdateScore(score + (say + 1) * (say + 1));
             UpdateRounds();
         }
         return chain;
@@ -338,6 +337,7 @@ public class Chain {
         cn.getTextWindow().output(Integer.valueOf(score).toString());
 
     }
+
     //updating rounds
     static void UpdateRounds() {
         rounds++;
@@ -345,41 +345,45 @@ public class Chain {
         cn.getTextWindow().output(Integer.valueOf(rounds).toString());
     }
 
+    static boolean checkChain(int[] chainElements, SLL chain) {
+        if (chainElements.length < 4) {
+            lost();
+            return false;
+        }
 
-    static void PrintToTable(int[] nn) {
-        int pos = 35;
-        if(nn.length < 4)lost();
-
-        for (int i = 0; i < nn.length && !isLost; i++) {
-            //46 occurs when nn[i] = "." ,
-            // this means that there is an error in the chain,
-            // at which point the game ends
-            if(nn[i] == 46) {
+        for (int i = 0; i < chainElements.length; i++) {
+            if (chainElements[i] == 46) {
                 lost();
-            }
-            //otherwise the game continues at the given level and ends.
-            cn.getTextWindow().setCursorPosition(pos, printY);
-            pos++;
-            cn.getTextWindow().output(Integer.valueOf(nn[i]).toString());
-            //printing logic
-            if(i!=nn.length-1) {
-                if(nn[i] != nn[i+1]+1 && nn[i] != nn[i+1]-1)lost();
-                cn.getTextWindow().setCursorPosition(pos, printY);
-                cn.getTextWindow().output("+");
-                pos++;
+                return false;
             }
         }
 
-        //positions of the + sign
-        if(chains!=0) {
-            printY--;
-            cn.getTextWindow().setCursorPosition(35, printY);
-            cn.getTextWindow().output("+");
-            printY++;
+        if (!chain.checkDifference()) {
+            lost();
+            return false;
         }
-        printY+=2;
-        chains++;
+
+        return true;
     }
+
+
+
+    static void PrintToTable(int[] chainElements, SLL chain) {
+        int pos = 35;
+        cn.getTextWindow().setCursorPosition(pos, printY);
+        if(countTable!=1)
+            cn.getTextWindow().output(pos,printY-1,'+');
+        printY+=2;
+
+        chain.display();
+
+        table.addRound(rounds);
+        for(int i=0;i<chainElements.length;i++){
+            table.addChain(rounds,chainElements[i]);
+        }
+
+    }
+
     //while losing, GameOver is displayed at the bottom,
     // and the game is stopped, while loop is over
     static void lost() {
