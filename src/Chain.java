@@ -40,6 +40,7 @@ public class Chain {
     // the y position used to print the text in the table
     static int printY = 5;
 
+
     //player name
     static String Username;
     Chain(int seeed , String Uname) throws Exception {   // --- Contructor

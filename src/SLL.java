@@ -108,6 +108,24 @@ public class SLL {
         }
     }
 
+    public void display(){
+        if(head == null){
+            System.out.println("List is empty");
+        }
+        else{
+            Node temp = head;
+            while(temp != null){
+
+                if(temp!= head)
+                    System.out.print("+" + temp.getData());
+                else
+                    System.out.print(temp.getData());
+
+                temp = temp.getLink();
+            }
+        }
+    }
+
 
 
 }
