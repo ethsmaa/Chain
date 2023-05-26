@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 import java.io.FileWriter;
 import java.awt.Color;
-
+import java.util.Scanner;
 
 
 public class Chain {
@@ -19,13 +19,13 @@ public class Chain {
     public static TextAttributes blue = new TextAttributes(Color.BLUE);
     public static TextAttributes gray = new TextAttributes(Color.GRAY);
     public static TextAttributes green = new TextAttributes(Color.GREEN);
-    public static TextAttributes magenta = new TextAttributes(Color.MAGENTA);
+    public static TextAttributes magenta = new TextAttributes(Color.magenta);
     public static TextAttributes orange = new TextAttributes(Color.orange);
     public static TextAttributes red = new TextAttributes(Color.red);
     public static TextAttributes yellow = new TextAttributes(Color.yellow);
     public static TextAttributes pink = new TextAttributes(Color.PINK);
 
-    public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 20, 20, 0);
+    public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 22, 20, 0);
     public TextMouseListener tmlis;
     public KeyListener klis;
 
@@ -36,6 +36,7 @@ public class Chain {
     public int keypr;   // key pressed?
     public int rkey;    // key   (for press/release)
     // ----------------------------------------------------
+
 
     // map is defined here
     static char[][] map = new char[19][31];
@@ -106,6 +107,8 @@ public class Chain {
         };
         cn.getTextWindow().addKeyListener(klis);
         // ----------------------------------------------------
+        menu();
+
 
         // map is filled here
         for (int i = 0; i < map.length; i++) {
@@ -150,7 +153,7 @@ public class Chain {
                 // It is set so that there is no error when you press the edge
                 try {
                     if (isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
-                        cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
+                        cn.getTextWindow().output(mousex, mousey, '+', pink);  // write a char to x,y position without changing cursor position
                         map[mousey][mousex] = '+'; // arraye ekle
                     } else if (map[mousey][mousex] == '+') {
                         cn.getTextWindow().output(mousex, mousey, ' ');
@@ -200,12 +203,12 @@ public class Chain {
                     mousey++;
 
                 }
-                cn.getTextWindow().output(mousex, mousey, '_');
+                cn.getTextWindow().output(mousex, mousey, '_', gray);
 
                 if (rkey == KeyEvent.VK_SPACE) {
                     try {
-                        if ( mousex < column && mousey < row && isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
-                            cn.getTextWindow().output(mousex, mousey, '+');  // write a char to x,y position without changing cursor position
+                        if (mousex < column && mousey < row && isSquareEmpty(mousex, mousey) && (mousex % 2 != 1 || mousey % 2 != 1)) {
+                            cn.getTextWindow().output(mousex, mousey, '+', pink);  // write a char to x,y position without changing cursor position
                             map[mousey][mousex] = '+';
                         } else if (map[mousey][mousex] == '+') {
                             cn.getTextWindow().output(mousex, mousey, ' ');
@@ -245,14 +248,14 @@ public class Chain {
                 if (map[i][j] == 0)
                     cn.getTextWindow().output(j, i, ' ');
                 else
-                    cn.getTextWindow().output(j, i, Integer.toString(map[i][j]).charAt(0), red);
+                    cn.getTextWindow().output(j, i, Integer.toString(map[i][j]).charAt(0));
             }
         }
     }
 
 
     boolean isSquareEmpty(int x, int y) {
-        if (map[y][x] == 0) return true;
+        if (map[y][x] == ' ' || map[y][x] == 0) return true;
         else return false;
 
     }
@@ -304,37 +307,37 @@ public class Chain {
         chain.add((int) map[i][j]);
         numbers[0] = Integer.valueOf(map[i][j]);
         map[i][j] = '.';
-        cn.getTextWindow().output(j, i, '.');
+        cn.getTextWindow().output(j, i, '.', gray);
 
         for (int m = 1; m < chainLength; m++) {
             if (j + 1 < column && map[i][j + 1] == '+') { // right
-                map[i][j + 1] = '0'; // + is deleted
+                map[i][j + 1] = ' '; // + is deleted
                 cn.getTextWindow().output(j + 1, i, ' ');
                 j += 2;
                 chain.add((int) map[i][j]);
             } else if (j - 1 > 0 && map[i][j - 1] == '+') { // left
-                map[i][j - 1] = '0';
+                map[i][j - 1] = ' ';
                 cn.getTextWindow().output(j - 1, i, ' ');
                 j -= 2;
                 chain.add((int) map[i][j]);
             } else if (i + 1 < row && map[i + 1][j] == '+') { // bottom
-                map[i + 1][j] = '0';
+                map[i + 1][j] = ' ';
                 cn.getTextWindow().output(j, i + 1, ' ');
                 i += 2;
                 chain.add((int) map[i][j]);
             } else if (i - 1 > 0 && map[i - 1][j] == '+') { // top
-                map[i - 1][j] = '0';
+                map[i - 1][j] = ' ';
                 cn.getTextWindow().output(j, i - 1, ' ');
                 i -= 2;
                 chain.add((int) map[i][j]);
             }
             numbers[m] = Integer.valueOf(map[i][j]);
             map[i][j] = '.';
-            cn.getTextWindow().output(j, i, '.');
+            cn.getTextWindow().output(j, i, '.',gray);
             say++;
         }
 
-        if(checkChain(numbers, chain)) // zincir doğruysa ekrana basılır
+        if (checkChain(numbers, chain)) // zincir doğruysa ekrana basılır
             PrintToTable(numbers, chain);
         //If there is no error in the chain, updating the score, otherwise the game ends
         if (!isLost) {
@@ -382,20 +385,23 @@ public class Chain {
     }
 
 
-
     static void PrintToTable(int[] chainElements, SLL chain) {
         int pos = 35;
         cn.getTextWindow().setCursorPosition(pos, printY);
-        if(countTable!=1)
-            cn.getTextWindow().output(pos,printY-1,'+');
-        printY+=2;
+        if (printY != 5)
+            cn.getTextWindow().output(pos, printY - 1, '+');
+        printY += 2;
 
         chain.display();
 
         table.addRound(rounds);
-        for(int i=0;i<chainElements.length;i++){
-            table.addChain(rounds,chainElements[i]);
+        for (int i = 0; i < chainElements.length; i++) {
+            table.addChain(rounds, chainElements[i]);
         }
+
+        cn.getTextWindow().setCursorPosition(35, 14);
+
+        // table.display();   --> şimdilik bu satır kullanım dışı
 
     }
 
@@ -416,5 +422,181 @@ public class Chain {
         }
         isLost = true;
     }
+
+    static void consoleClear() {
+        for (int i = 0; i < 22; i++) {
+            for (int j = 0; j < 60; j++) {
+                cn.getTextWindow().output(j, i, ' ');
+            }
+            cn.getTextWindow().output(0, i, '\n');
+        }
+
+    }
+
+
+    static void menu() {
+        Scanner scanner = new Scanner(System.in);
+
+        cn.getTextWindow().setCursorPosition(17, 2);
+        cn.getTextWindow().output("WELCOME TO CHAIN GAME!\n", pink);
+
+        cn.getTextWindow().setCursorPosition(18, 4);
+        cn.getTextWindow().output("1 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 6);
+        cn.getTextWindow().output("2 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 8);
+        cn.getTextWindow().output("3 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 10);
+        cn.getTextWindow().output("4 - ", yellow);
+
+        cn.getTextWindow().setCursorPosition(22, 4);
+        cn.getTextWindow().output("How to play?");
+        cn.getTextWindow().setCursorPosition(22, 6);
+        cn.getTextWindow().output("Chain Rules");
+        cn.getTextWindow().setCursorPosition(22, 8);
+        cn.getTextWindow().output("Keyboard Controls");
+        cn.getTextWindow().setCursorPosition(22, 10);
+        cn.getTextWindow().output("Start Game\n\n");
+
+
+        int choice = Integer.parseInt(scanner.next());
+        while (choice != 4) {
+            switch (choice) {
+                case 1:
+                    consoleClear();
+                    howToPlay();
+                    initText();
+                    break;
+                case 2:
+                    consoleClear();
+                    chainRules();
+                    initText();
+                    break;
+                case 3:
+                    consoleClear();
+                    keyboardControls();
+                    initText();
+                    break;
+
+            }
+            choice = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        // seed sorulma kısmı buraya yazılacak
+
+
+        consoleClear();
+
+    }
+
+    static void initText() {
+        cn.getTextWindow().setCursorPosition(10, 11);
+        cn.getTextWindow().output("-------------------------------------", gray);
+
+        cn.getTextWindow().setCursorPosition(18, 13);
+        cn.getTextWindow().output("1 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 15);
+        cn.getTextWindow().output("2 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 17);
+        cn.getTextWindow().output("3 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 19);
+        cn.getTextWindow().output("4 - ", yellow);
+
+        cn.getTextWindow().setCursorPosition(22, 13);
+        cn.getTextWindow().output("How to play?");
+        cn.getTextWindow().setCursorPosition(22, 15);
+        cn.getTextWindow().output("Chain Rules");
+        cn.getTextWindow().setCursorPosition(22, 17);
+        cn.getTextWindow().output("Keyboard Controls");
+        cn.getTextWindow().setCursorPosition(22, 19);
+        cn.getTextWindow().output("Start Game\n");
+    }
+
+    static void howToPlay() {
+
+        cn.getTextWindow().setCursorPosition(23, 1);
+        cn.getTextWindow().output("HOW TO PLAY?\n", pink);
+        cn.getTextWindow().setCursorPosition(3, 3);
+        cn.getTextWindow().output("Strive to reach the highest score!");
+        cn.getTextWindow().setCursorPosition(3, 4);
+        cn.getTextWindow().output("Earn your spot on the highscore table!");
+        cn.getTextWindow().setCursorPosition(3, 5);
+        cn.getTextWindow().output("But there are chain rules that you need to pay attention");
+        cn.getTextWindow().setCursorPosition(3, 6);
+        cn.getTextWindow().output("to!");
+        cn.getTextWindow().setCursorPosition(6, 6);
+        cn.getTextWindow().output("(Press 2 to see chain rules)\n", gray);
+
+
+    }
+
+    static void chainRules() {
+        cn.getTextWindow().setCursorPosition(23, 1);
+        cn.getTextWindow().output("CHAIN RULES", pink);
+
+
+        cn.getTextWindow().output(5, 3, '-', gray);
+        cn.getTextWindow().output(5, 4, '-', gray);
+        cn.getTextWindow().output(5, 6, '-', gray);
+
+
+        cn.getTextWindow().setCursorPosition(7, 3);
+        cn.getTextWindow().output("There must be only one chain in each round");
+        cn.getTextWindow().setCursorPosition(7, 4);
+        cn.getTextWindow().output("Chain with more than one part, broken chains,");
+        cn.getTextWindow().setCursorPosition(7, 5);
+        cn.getTextWindow().output("wrong positioned plus signs are prohibited");
+        cn.getTextWindow().setCursorPosition(7, 6);
+        cn.getTextWindow().output("Difference between neighbor squares ");
+        cn.getTextWindow().setCursorPosition(7, 7);
+        cn.getTextWindow().output("in the chain must be 1 (+1 or -1).");
+        cn.getTextWindow().setCursorPosition(7, 8);
+        cn.getTextWindow().output("The number of squares in the chain must be at ");
+        cn.getTextWindow().setCursorPosition(7, 9);
+        cn.getTextWindow().output("least 4.");
+
+
+    }
+
+    static void keyboardControls() {
+        cn.getTextWindow().setCursorPosition(20, 1);
+        cn.getTextWindow().output("KEYBOARD CONTROLS\n", pink);
+        cn.getTextWindow().setCursorPosition(10, 4);
+        cn.getTextWindow().output("W ", yellow);
+        cn.getTextWindow().setCursorPosition(10, 6);
+        cn.getTextWindow().output("A ", yellow);
+        cn.getTextWindow().setCursorPosition(10, 8);
+        cn.getTextWindow().output("S ", yellow);
+        cn.getTextWindow().setCursorPosition(10, 10);
+        cn.getTextWindow().output("D ", yellow);
+
+        cn.getTextWindow().setCursorPosition(12, 4);
+        cn.getTextWindow().output("Up");
+        cn.getTextWindow().setCursorPosition(12, 6);
+        cn.getTextWindow().output("Left");
+        cn.getTextWindow().setCursorPosition(12, 8);
+        cn.getTextWindow().output("Down");
+        cn.getTextWindow().setCursorPosition(12, 10);
+        cn.getTextWindow().output("Right\n\n");
+
+        cn.getTextWindow().setCursorPosition(23, 4);
+        cn.getTextWindow().output("ENTER ", yellow);
+        cn.getTextWindow().setCursorPosition(23, 6);
+        cn.getTextWindow().output("SPACE ", yellow);
+        cn.getTextWindow().setCursorPosition(23, 8);
+        cn.getTextWindow().output("E ", yellow);
+
+        cn.getTextWindow().setCursorPosition(29, 4);
+        cn.getTextWindow().output("End of the round");
+        cn.getTextWindow().setCursorPosition(29, 6);
+        cn.getTextWindow().output("Insert/remove +");
+        cn.getTextWindow().setCursorPosition(25, 8);
+        cn.getTextWindow().output("End of the game");
+    }
+
+
+
+
 }
 
