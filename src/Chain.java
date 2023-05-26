@@ -1,3 +1,4 @@
+import enigma.console.TextAttributes;
 import enigma.core.Enigma;
 import enigma.event.TextMouseEvent;
 import enigma.event.TextMouseListener;
@@ -7,9 +8,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 import java.io.FileWriter;
+import java.awt.Color;
+
 
 
 public class Chain {
+    public static TextAttributes cyan = new TextAttributes(Color.cyan);
+    public static TextAttributes black = new TextAttributes(Color.BLACK);
+    public static TextAttributes white = new TextAttributes(Color.white);
+    public static TextAttributes blue = new TextAttributes(Color.BLUE);
+    public static TextAttributes gray = new TextAttributes(Color.GRAY);
+    public static TextAttributes green = new TextAttributes(Color.GREEN);
+    public static TextAttributes magenta = new TextAttributes(Color.MAGENTA);
+    public static TextAttributes orange = new TextAttributes(Color.orange);
+    public static TextAttributes red = new TextAttributes(Color.red);
+    public static TextAttributes yellow = new TextAttributes(Color.yellow);
+    public static TextAttributes pink = new TextAttributes(Color.PINK);
+
     public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 20, 20, 0);
     public TextMouseListener tmlis;
     public KeyListener klis;
@@ -230,7 +245,7 @@ public class Chain {
                 if (map[i][j] == 0)
                     cn.getTextWindow().output(j, i, ' ');
                 else
-                    cn.getTextWindow().output(j, i, Integer.toString(map[i][j]).charAt(0));
+                    cn.getTextWindow().output(j, i, Integer.toString(map[i][j]).charAt(0), red);
             }
         }
     }
