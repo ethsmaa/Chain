@@ -63,16 +63,11 @@ public class Chain {
     static MultiLinkedList table = new MultiLinkedList();
     static int countTable = 1;
 
-    Chain(int seeed, String Uname) throws Exception {   // --- Contructor
-        //random seed is defined here
-        Random random = new Random(seeed);
-
-        //username is defined here
-        Username = Uname;
+    Chain() throws Exception {   // --- Contructor
 
 
-        cn.getTextWindow().setCursorPosition(47, 0); // seed is printed here
-        cn.getTextWindow().output(Integer.valueOf(seeed).toString());
+
+
         // ------ Standard code for mouse and keyboard ------ Do not change
         tmlis = new TextMouseListener() {
             public void mouseClicked(TextMouseEvent arg0) {
@@ -108,8 +103,52 @@ public class Chain {
         cn.getTextWindow().addKeyListener(klis);
         // ----------------------------------------------------
         menu();
+        
+        Scanner scn = new Scanner(System.in);
+    	
+        cn.getTextWindow().setCursorPosition(0, 0);
+        cn.getTextWindow().output("Enter Name: ");
+        String playerName = scn.nextLine();
+        
+        cn.getTextWindow().setCursorPosition(0, 2);
+        cn.getTextWindow().output("Enter seed (If you leave it blank, a random seed is generated): ");
+        String seedInput = scn.nextLine();
+        
+        consoleClear();
+        
+        int seed;
+        if (seedInput.isEmpty()) {
+            seed = new Random().nextInt(9000) + 1000; // generate 1000 - 9999 number
+            cn.getTextWindow().setCursorPosition(0, 0);
+            cn.getTextWindow().output("Generated seed: " + seed);
+        } else {
+            try {
+                seed = Integer.parseInt(seedInput);
+                cn.getTextWindow().setCursorPosition(0, 0);
+            	cn.getTextWindow().output("Generated seed: " + seed);
+            } catch (NumberFormatException e) {
+            	cn.getTextWindow().setCursorPosition(0, 0);
+            	cn.getTextWindow().output("Wrong seed value: " + seedInput);
+            	seed = new Random().nextInt(9000) + 1000; // generate 1000 - 9999 number
+            	cn.getTextWindow().setCursorPosition(0, 2);
+            	cn.getTextWindow().output("Generated seed: " + seed);
+            }
+        }
 
-
+        Thread.sleep(2000);
+        
+        consoleClear();
+        
+        scn.close();
+        
+        //random seed is defined here
+        Random random = new Random(seed);
+        
+        Username = playerName;
+        
+        cn.getTextWindow().setCursorPosition(47, 0); // seed is printed here
+        cn.getTextWindow().output(Integer.valueOf(seed).toString());
+        
         // map is filled here
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -239,7 +278,8 @@ public class Chain {
             Thread.sleep(20);
         }
     }
-
+    
+    
 
     void printMap() {
         //print map
@@ -405,14 +445,18 @@ public class Chain {
 
     }
 
+
     //while losing, GameOver is displayed at the bottom,
     // and the game is stopped, while loop is over
     static void lost() {
+        Player player = new Player(Username, score);
+
         cn.getTextWindow().setCursorPosition(35, 16);
         cn.getTextWindow().output("Error in chain");
         cn.getTextWindow().setCursorPosition(35, 17);
         cn.getTextWindow().output("-Game Over-");
-        try {
+        
+        /*try {
             FileWriter fileWriter = new FileWriter("highscore.txt");
             String information = Username.concat("       ").concat(Integer.valueOf(score).toString());
             fileWriter.write(information);
@@ -420,6 +464,7 @@ public class Chain {
         } catch (Exception e) {
             System.out.print("An error occurred while writing to the file: " + e.getMessage());
         }
+        */
         isLost = true;
     }
 
@@ -484,7 +529,7 @@ public class Chain {
         }
 
         // seed sorulma kısmı buraya yazılacak
-
+        
 
         consoleClear();
 
