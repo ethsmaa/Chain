@@ -55,7 +55,8 @@ public class Chain {
     // the y position used to print the text in the table
     static int printY = 5;
 
-
+    static DoubleLinkedList highscoretable = new DoubleLinkedList();
+    
     //player name
     static String Username;
 
@@ -456,6 +457,11 @@ public class Chain {
         cn.getTextWindow().setCursorPosition(35, 17);
         cn.getTextWindow().output("-Game Over-");
         
+        highscoretable.addPlayer(player);
+        highscoretable.saveToFile("highscore.txt");
+        
+        consoleClear();
+        highscoretable.printToConsole();
         /*try {
             FileWriter fileWriter = new FileWriter("highscore.txt");
             String information = Username.concat("       ").concat(Integer.valueOf(score).toString());

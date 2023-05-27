@@ -1,11 +1,24 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import enigma.core.Enigma;
 
 public class DoubleLinkedList {
 	private static Node head;
 	private static Node tail;
     private static int size;
+    
+    public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 22, 20, 0);
+
+    
+    public DoubleLinkedList() {
+    	head = null;
+    	tail = null;
+    	size = 0;
+    }
 
     private class Node {
         private Player player;
@@ -24,7 +37,7 @@ public class DoubleLinkedList {
             head = newNode;
         } else {
             Node current = head;
-            while (current != null && player.score <= current.player.getScore()) {
+            while (current != null && player.getScore() <= current.player.getScore()) {
                 current = current.next;
             }
             if (current == head) {
@@ -46,18 +59,32 @@ public class DoubleLinkedList {
             }
         }
         size++;
+        
     }
 
-    public static void printToConsole() {
+    public void printToConsole() {
+    	int satirNo = 0;
+    	try (BufferedReader reader = new BufferedReader(new FileReader("highscore.txt"))) {
+            String satir;
+            while ((satir = reader.readLine()) != null) {
+            	cn.getTextWindow().setCursorPosition(0, satirNo);
+                cn.getTextWindow().output(satir);
+                satirNo += 2;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    	/*
         Node current = head;
         while (current != null) {
             System.out.println("Player: " + current.player.getName() + ", Score: " + current.player.getScore());
             current = current.next;
         }
+        */
     }
 
-    public static void saveToFile(String fileName) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+    public void saveToFile(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,true))) {
             Node current = head;
             while (current != null) {
                 writer.write("Player: " + current.player.getName() + ", Score: " + current.player.getScore());
