@@ -25,7 +25,7 @@ public class Chain {
     public static TextAttributes yellow = new TextAttributes(Color.yellow);
     public static TextAttributes pink = new TextAttributes(Color.PINK);
 
-    public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 22, 20, 0);
+    public static enigma.console.Console cn = Enigma.getConsole("Chain", 60, 24, 20, 0);
     public TextMouseListener tmlis;
     public KeyListener klis;
 
@@ -271,6 +271,7 @@ public class Chain {
                 // end the game when the e is pressed
                 if (rkey == KeyEvent.VK_E) {
                     lost();
+                    highScoreTable();
                 }
                 keypr = 0;    // last action
             }
@@ -475,7 +476,7 @@ public class Chain {
     }
 
     static void consoleClear() {
-        for (int i = 0; i < 22; i++) {
+        for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 60; j++) {
                 cn.getTextWindow().output(j, i, ' ');
             }
@@ -499,6 +500,8 @@ public class Chain {
         cn.getTextWindow().output("3 - ", yellow);
         cn.getTextWindow().setCursorPosition(18, 10);
         cn.getTextWindow().output("4 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 12);
+        cn.getTextWindow().output("5 - ", yellow);
 
         cn.getTextWindow().setCursorPosition(22, 4);
         cn.getTextWindow().output("How to play?");
@@ -507,7 +510,9 @@ public class Chain {
         cn.getTextWindow().setCursorPosition(22, 8);
         cn.getTextWindow().output("Keyboard Controls");
         cn.getTextWindow().setCursorPosition(22, 10);
-        cn.getTextWindow().output("Start Game\n\n");
+        cn.getTextWindow().output("Start Game");
+        cn.getTextWindow().setCursorPosition(22, 12);
+        cn.getTextWindow().output("HighScore Table\n\n");
 
 
         int choice = Integer.parseInt(scanner.next());
@@ -527,6 +532,10 @@ public class Chain {
                     consoleClear();
                     keyboardControls();
                     initText();
+                    break;
+                case 5:
+                    consoleClear();
+                    highScoreTable();
                     break;
 
             }
@@ -553,6 +562,8 @@ public class Chain {
         cn.getTextWindow().output("3 - ", yellow);
         cn.getTextWindow().setCursorPosition(18, 19);
         cn.getTextWindow().output("4 - ", yellow);
+        cn.getTextWindow().setCursorPosition(18, 21);
+        cn.getTextWindow().output("5 - ", yellow);
 
         cn.getTextWindow().setCursorPosition(22, 13);
         cn.getTextWindow().output("How to play?");
@@ -561,7 +572,9 @@ public class Chain {
         cn.getTextWindow().setCursorPosition(22, 17);
         cn.getTextWindow().output("Keyboard Controls");
         cn.getTextWindow().setCursorPosition(22, 19);
-        cn.getTextWindow().output("Start Game\n");
+        cn.getTextWindow().output("Start Game");
+        cn.getTextWindow().setCursorPosition(22, 21);
+        cn.getTextWindow().output("HighScoreTable\n");
     }
 
     static void howToPlay() {
@@ -644,6 +657,11 @@ public class Chain {
         cn.getTextWindow().output("Insert/remove +");
         cn.getTextWindow().setCursorPosition(25, 8);
         cn.getTextWindow().output("End of the game");
+    }
+
+    static void highScoreTable() {
+        consoleClear();
+        highscoretable.printToConsole();
     }
 
 
