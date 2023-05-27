@@ -451,16 +451,18 @@ public class Chain {
     //while losing, GameOver is displayed at the bottom,
     // and the game is stopped, while loop is over
     static void lost() {
+        Scanner scanner = new Scanner(System.in);
         Player player = new Player(Username, score);
 
         cn.getTextWindow().setCursorPosition(35, 16);
         cn.getTextWindow().output("Error in chain");
         cn.getTextWindow().setCursorPosition(35, 17);
         cn.getTextWindow().output("-Game Over-");
-        
+
         highscoretable.addPlayer(player);
         highscoretable.saveToFile("highscore.txt");
-        
+
+        scanner.nextLine(); // bu satır çok mantıklı değil ama şimdilik böyle kalsın
         consoleClear();
         highscoretable.printToConsole();
         /*try {
