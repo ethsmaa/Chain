@@ -437,16 +437,15 @@ public class Chain {
             cn.getTextWindow().output(pos, printY - 1, '+');
         printY += 2;
 
-        chain.display();
-
         table.addRound(rounds);
         for (int i = 0; i < chainElements.length; i++) {
             table.addChain(rounds, chainElements[i]);
         }
 
-        cn.getTextWindow().setCursorPosition(35, 14);
+        table.displayChain(rounds);
 
-        // table.display();   --> şimdilik bu satır kullanım dışı
+
+
 
     }
 

@@ -69,21 +69,30 @@ public class MultiLinkedList {
         return count;
     }
 
-   public void display() {
+    // display chain of spesific round
+    public void displayChain(Object round) {
         if (head == null)
             System.out.println("linked list is empty");
         else {
             RoundNode temp = head;
             while (temp != null) {
-                System.out.print(temp.getData() + " -> ");
-                ChainNode temp2 = temp.getRight();
-                while (temp2 != null) {
-                    System.out.print(temp2.getData() + " + ");
-                    temp2 = temp2.getNext();
+                if (temp.getData().equals(round)) {
+                    ChainNode temp2 = temp.getRight();
+                    while (temp2 != null) {
+                        if(temp2 == temp.getRight()) // ilk eleman için + koyma
+                            System.out.print(temp2.getData());
+                        else
+                            System.out.print("+" + temp2.getData());
+                        temp2 = temp2.getNext();
+                    }
                 }
-                System.out.println();
                 temp = temp.getDown();
             }
         }
-   }
+    }
 }
+
+
+
+
+
