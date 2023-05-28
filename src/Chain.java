@@ -70,7 +70,7 @@ public class Chain {
     Chain() throws Exception {   // --- Contructor
 
 
-
+    	highScoreTableRead();
 
         // ------ Standard code for mouse and keyboard ------ Do not change
         tmlis = new TextMouseListener() {
@@ -274,7 +274,6 @@ public class Chain {
                 // end the game when the e is pressed
                 if (rkey == KeyEvent.VK_E) {
                     lost();
-                    highScoreTable();
                 }
                 keypr = 0;    // last action
             }
@@ -444,9 +443,6 @@ public class Chain {
 
         table.displayChain(rounds);
 
-
-
-
     }
 
 
@@ -456,17 +452,7 @@ public class Chain {
         Scanner scanner = new Scanner(System.in);
         Player player = new Player(Username, score);
         
-        try (BufferedReader reader = new BufferedReader(new FileReader("highscore.txt"))) {
-            String satir;
-            while ((satir = reader.readLine()) != null) {
-            	String[] playerinfo = satir.split(" ");
-            	int playerscore = Integer.parseInt(playerinfo[1]);
-            	Player newplayer = new Player(playerinfo[0], playerscore);
-            	highscoretable.addPlayer(newplayer);	
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
         
         cn.getTextWindow().setCursorPosition(35, 16);
         cn.getTextWindow().output("Error in chain");
@@ -476,11 +462,16 @@ public class Chain {
         highscoretable.addPlayer(player);
         highscoretable.clearTextFile();
         highscoretable.saveToFile("highscore.txt");
-
-        scanner.nextLine(); // bu satır çok mantıklı değil ama şimdilik böyle kalsın
+        
+        try {
+            Thread.sleep(2000); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
         consoleClear();
         highscoretable.printToConsole();
-
+        
         isLost = true;
     }
 
@@ -544,7 +535,7 @@ public class Chain {
                     break;
                 case 5:
                     consoleClear();
-                    highScoreTable();
+                    highscoretable.printToConsole();
                     break;
 
             }
@@ -552,8 +543,6 @@ public class Chain {
             scanner.nextLine();
         }
 
-        // seed sorulma kısmı buraya yazılacak
-        
 
         consoleClear();
 
@@ -668,9 +657,18 @@ public class Chain {
         cn.getTextWindow().output("End of the game");
     }
 
-    static void highScoreTable() {
-        consoleClear();
-        highscoretable.printToConsole();
+    static void highScoreTableRead() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("highscore.txt"))) {
+            String satir;
+            while ((satir = reader.readLine()) != null) {
+            	String[] playerinfo = satir.split(" ");
+            	int playerscore = Integer.parseInt(playerinfo[1]);
+            	Player newplayer = new Player(playerinfo[0], playerscore);
+            	highscoretable.addPlayer(newplayer);	
+            }
+        } catch (Exception e) {
+            
+        }
     }
 
 
