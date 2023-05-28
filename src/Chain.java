@@ -139,7 +139,7 @@ public class Chain {
             }
         }
 
-     //   Thread.sleep(2000);
+        Thread.sleep(1580);
         
         consoleClear();
         
@@ -273,7 +273,7 @@ public class Chain {
 
                 // end the game when the e is pressed
                 if (rkey == KeyEvent.VK_E) {
-                    lost();
+                	System.exit(0);
                 }
                 keypr = 0;    // last action
             }
@@ -449,11 +449,8 @@ public class Chain {
     //while losing, GameOver is displayed at the bottom,
     // and the game is stopped, while loop is over
     static void lost() {
-        Scanner scanner = new Scanner(System.in);
         Player player = new Player(Username, score);
-        
-        
-        
+  
         cn.getTextWindow().setCursorPosition(35, 16);
         cn.getTextWindow().output("Error in chain");
         cn.getTextWindow().setCursorPosition(35, 17);
@@ -484,7 +481,6 @@ public class Chain {
         }
 
     }
-
 
     static void menu() {
         Scanner scanner = new Scanner(System.in);
