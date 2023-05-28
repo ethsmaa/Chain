@@ -30,6 +30,14 @@ public class DoubleLinkedList {
         }
     }
     
+    public void clearTextFile() {
+    	try (BufferedWriter writer = new BufferedWriter(new FileWriter("highscore.txt"))) {
+        	writer.write("");
+        }
+    	catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void addPlayer(Player player) {
         Node newNode = new Node(player);
@@ -85,9 +93,10 @@ public class DoubleLinkedList {
 
     public void saveToFile(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,true))) {
+        	writer.write("");
             Node current = head;
             while (current != null) {
-                writer.write("Player: " + current.player.getName() + ", Score: " + current.player.getScore());
+                writer.write(current.player.getName() + " " + current.player.getScore());
                 writer.newLine();
                 current = current.next;
             }

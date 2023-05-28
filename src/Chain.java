@@ -7,7 +7,10 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.Color;
 import java.util.Scanner;
 
@@ -136,7 +139,7 @@ public class Chain {
             }
         }
 
-        Thread.sleep(2000);
+     //   Thread.sleep(2000);
         
         consoleClear();
         
@@ -453,27 +456,32 @@ public class Chain {
     static void lost() {
         Scanner scanner = new Scanner(System.in);
         Player player = new Player(Username, score);
-
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader("highscore.txt"))) {
+            String satir;
+            while ((satir = reader.readLine()) != null) {
+            	String[] playerinfo = satir.split(" ");
+            	int playerscore = Integer.parseInt(playerinfo[1]);
+            	Player newplayer = new Player(playerinfo[0], playerscore);
+            	highscoretable.addPlayer(newplayer);	
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         cn.getTextWindow().setCursorPosition(35, 16);
         cn.getTextWindow().output("Error in chain");
         cn.getTextWindow().setCursorPosition(35, 17);
         cn.getTextWindow().output("-Game Over-");
 
         highscoretable.addPlayer(player);
+        highscoretable.clearTextFile();
         highscoretable.saveToFile("highscore.txt");
 
         scanner.nextLine(); // bu satır çok mantıklı değil ama şimdilik böyle kalsın
         consoleClear();
         highscoretable.printToConsole();
-        /*try {
-            FileWriter fileWriter = new FileWriter("highscore.txt");
-            String information = Username.concat("       ").concat(Integer.valueOf(score).toString());
-            fileWriter.write(information);
-            fileWriter.close();
-        } catch (Exception e) {
-            System.out.print("An error occurred while writing to the file: " + e.getMessage());
-        }
-        */
+
         isLost = true;
     }
 
