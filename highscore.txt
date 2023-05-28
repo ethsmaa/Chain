@@ -1,8 +1,11 @@
-Player: esma, Score: 25
-Player: a, Score: 70
-Player: b, Score: 15
-Player: 1212, Score: 106
-Player: faruk, Score: 97
-Player: asdasd, Score: 0
-Player: eska, Score: 0
-Player: eeee, Score: 0
+ömer 261
+esma 185
+cansu 150
+ali 121
+can 120
+esma 49
+ayan 45
+emre 35
+esma 25
+erkam 20
+esma 0
