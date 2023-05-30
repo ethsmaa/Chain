@@ -5,7 +5,5 @@ ali 121
 can 120
 esma 49
 ayan 45
-emre 35
-esma 25
-erkam 20
-esma 0
+e 16
+m 16

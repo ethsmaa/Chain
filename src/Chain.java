@@ -46,7 +46,6 @@ public class Chain {
 
     //for losing logic
     static Boolean isLost = false;
-    static int chains = 0;
 
     static int row = 19;
     static int column = 31;
@@ -65,7 +64,6 @@ public class Chain {
 
     // table
     static MultiLinkedList table = new MultiLinkedList();
-    static int countTable = 1;
 
     Chain() throws Exception {   // --- Contructor
 
@@ -183,6 +181,7 @@ public class Chain {
         printMap();
 
 
+
         mousey = 1;
         mousex = 1;
 
@@ -215,6 +214,7 @@ public class Chain {
 
             if (keypr == 1) {    // if keyboard button pressed
 
+                /*
 
                 if (rkey == KeyEvent.VK_LEFT && mousex > 0 && isSquareEmpty(mousex - 1, mousey)) {
 
@@ -261,7 +261,7 @@ public class Chain {
                     } catch (Exception e) {
                     }
                 }
-
+*/
 
                 if (rkey == KeyEvent.VK_ENTER) {
                     chain();
@@ -273,7 +273,24 @@ public class Chain {
 
                 // end the game when the e is pressed
                 if (rkey == KeyEvent.VK_E) {
-                	System.exit(0);
+                    Player pl = new Player(playerName,score);
+                    cn.getTextWindow().setCursorPosition(35, 17);
+                    cn.getTextWindow().output("-Game Over-");
+
+                    highscoretable.addPlayer(pl);
+                    highscoretable.clearTextFile();
+                    highscoretable.saveToFile("highscore.txt");
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    consoleClear();
+                    highscoretable.printToConsole();
+
+                    isLost = true;
                 }
                 keypr = 0;    // last action
             }
