@@ -273,7 +273,24 @@ public class Chain {
 
                 // end the game when the e is pressed
                 if (rkey == KeyEvent.VK_E) {
-                	lost();
+                    Player pl = new Player(playerName,score);
+                    cn.getTextWindow().setCursorPosition(35, 17);
+                    cn.getTextWindow().output("-Game Over-");
+
+                    highscoretable.addPlayer(pl);
+                    highscoretable.clearTextFile();
+                    highscoretable.saveToFile("highscore.txt");
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    consoleClear();
+                    highscoretable.printToConsole();
+
+                    isLost = true;
                 }
                 keypr = 0;    // last action
             }
